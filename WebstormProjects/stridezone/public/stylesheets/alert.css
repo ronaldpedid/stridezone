@@ -1,0 +1,77 @@
+/* Styles of alert/pop up boxes*/
+.pos-abs-center{
+    position: absolute;
+    z-index: 9001;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+
+.closepu{
+    position: relative;
+    cursor: pointer;
+    left: 90%;
+    right: 0;
+    background-color: transparent;
+    font-weight: 800;
+    border: none;
+}
+
+.deleteBtn{
+    background-color: darkred;
+    color: #333333;
+}
+.pubox{
+    background-color: #b0bec5;
+    border-radius: 1em;
+    width: calc(100%/5);
+    padding: 2em;
+    text-align: center;
+
+}
+
+.warning{
+    border: 2px solid #fff62e;
+}
+
+.success{
+    width: calc(100%/5);
+    padding: 1em;
+    border: 2px solid darkgreen;
+    border-radius: 1em;
+    background-color:green;
+}
+
+.delete{
+    border: 2px solid red;
+}
+
+.errors{
+    width: calc(100%/5);
+    padding: 1em;
+    border: 2px solid darkred;
+    border-radius: 1em;
+    background-color:#b9151b;
+
+}
+
+.errors ul li{
+    list-style-type: none;
+}
+.validate{
+
+}
+
+.req{
+    color: #b9151b;
+}
+/* show and hide classes - sets display to none/block*/
+.show{
+    display: block;
+}
+
+/* Taking the element out of the flow of the page*/
+.hide{
+    display: none;
+}

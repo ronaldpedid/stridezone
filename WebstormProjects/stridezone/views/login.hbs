@@ -1,15 +1,76 @@
-<section class="flex layout-section center-text flex-flow-no-wr margin-twenty">
-    <h1 class="center-text">Please login to edit the site.</h1>
-
-    <form action="/login" method="post">
-        <div class="flex flex-flow-no-wr margin-twenty">
-            Username:
-            <input type="text" name="username" value="">
-            Password:
-            <input type="password" name="password" value="">
-            <div class="margin-twenty">
-                <input class="btn margin-twenty" type="submit" value="login">
+<section class="flex flex-flow-no-wr loginBg">
+    <div class="layout-section center-text flex-flow-no-wr margin-twenty">
+        <form action="/login" method="post">
+            <div class="flex flex-flow-no-wr margin-twenty">
+                <label for="username"></label>
+                <input class="loginInput font center" type="text" name="username" value="" placeholder="USERNAME"/>
+                <label for="password"></label>
+                <input class="loginInput font center" type="password" name="password" value="" placeholder="PASSWORD"/>
+                <div class="">
+                    <input class="loginBtn margin-twenty-top uppercase" type="submit" value="login"/>
+                </div>
             </div>
+        </form>
+    </div>
+
+    <div class="flex flex-flow-no-wr">
+        <h1 class="center uppercase font loginCopy">New to Stride-Zone?</h1>
+        <div class="center">
+            <input id="registerPUOpen" class="registerBtn center uppercase" type="button" value="Join Today!"/>
         </div>
-    </form>
+    </div>
+
+    <div id="registerPU" class="modal">
+        <div class="modal-content registerModalBG">
+            <form action="/register" method="post">
+                {{#if success}}
+                    <section id="valAlertSuccess" class="success pos-abs-center">
+                        <button id="closeValSuccess" class="closepu" type="button">[X]</button>
+                        <h2>Masterfully Done!</h2>
+                    </section>
+                {{else}}
+                    {{#if errors}}
+                        <section id="valAlertError" class="errors pos-abs-center">
+                            <button id="closeValAlertError" class="closepu" type="button">[X]</button>
+                            <ul>
+                                {{#each errors }}
+                                    <li>{{this.msg}}</li>
+                                {{/each}}
+                            </ul>
+                        </section>
+                    {{/if}}
+                {{/if}}
+                <div class="flex flex-flow-no-wr center">
+                    <span class="close">&times;</span>
+                    <div class="register center">
+                        <h1 class="center-text uppercase font loginCopy">Join our Vanguard!</h1>
+                        <label></label>
+                        <input class="inputRegister inputFont center" type="text" name="name" value=""
+                               placeholder="First Name"/>
+
+                        <label></label>
+                        <input class="inputRegister inputFont margin-twenty-top" type="text" name="lastname" value=""
+                               placeholder="Last Name"/>
+                    </div>
+                    <div class="center">
+                        <label class="center"></label>
+                        <input class="inputRegister inputFont margin-twenty-top" type="text" name="username" value=""
+                               placeholder="Username"/>
+
+                        <label class="center"></label>
+                        <input class="inputRegister inputFont margin-twenty-top" type="password" name="password"
+                               value=""
+                               placeholder="Password"/>
+                        <label></label>
+                        <input class="inputEmail inputFont margin-twenty-top" type="email" name="emailAddress" value=""
+                               placeholder="Email Address"/>
+
+                    </div>
+
+
+                </div>
+                <input class="registerBtn margin-twenty-top center font" type="submit" value="Join!"/>
+            </form>
+        </div>
+    </div>
 </section>

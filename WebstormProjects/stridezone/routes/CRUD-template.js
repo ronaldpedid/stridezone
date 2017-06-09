@@ -1,19 +1,14 @@
-/**
- * Created by ronal on 1/21/2017.
- */
-/**
- * Created by ronal on 1/21/2017.
- */
+
 //create, read, update and delete
 var express = require('express');
 var router = express.Router();
-var Game = require('../lib/models/Game.js');
+
 
 // START NEW CRUD //
 // GET /events
 // "Show all events"
 router.get('/', function (req, res) {
-
+    res.render('')
 });
 
 // GET /events/create

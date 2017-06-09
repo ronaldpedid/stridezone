@@ -1,5 +1,50 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
-{{with User}}
-    <p>You are logged in</p>
-{{/with}}
+<main class="con-container flex center flex-flow-no-wr">
+    <section class="row fe-content">
+        {{#each post as |post isFeatured|}}
+            {{#with post}}
+                <div class="two-col">
+                    {{#if isFeatured}}
+                        <h3>FEATURED</h3>
+                        <img class="flex" src="{{imagePath}}" height="200px" width="225px"/>
+                        <span>{{formatDate createdAt}}</span>
+                        <p>{{makeBlurb content}}...<a href="/posts/{{id}}">Read More</a></p>
+                    {{/if}}
+                </div>
+            {{/with}}
+        {{/each}}
+    </section>
+    <section class="row">
+        <div class="two-col">
+            {{#each post as |post|}}
+                <div class="artPost full-width row">
+                    {{#with post}}
+                        <div class="one-third flex post-img">
+                            <img class="flex" src="{{imagePath}}" height="200px" width="225px"/>
+                        </div>
+                        <div class="two-third">
+                            <span class="fmat-blurb">{{ formatDate createdAt }}</span>
+                            <a href="/posts/{{id}}">
+                                <h1 class="fmat-blurb">{{postTitle}}</h1>
+                            </a>
+                            <h4 class="fmat-blurb">{{author}}</h4>
+                            <p class="fmat-blurb">{{ makeBlurb content }}...<a href="/posts/{{id}}">Read More</a></p>
+                        </div>
+                    {{/with}}
+                </div>
+            {{/each}}
+        </div>
+        <aside class="aside">
+
+        </aside>
+    </section>
+    <section>
+        <p>Join our Mailing list!</p>
+        <form id="mgform">
+            <label for>email</label>
+            <input type="text" id="mail" placeholder="Youremail@example.com">
+            <button value="bulk" onclick=""mgform.hid="this.value">Send</button>
+            <button value="list" onclick=""mgform.hid="this.value">Add to list</button>
+            <button style="display: none" value="inv" onclick=""mgform.hid="this.value">Send invoice</button>
+        </form>
+    </section>
+</main>

@@ -1,32 +1,54 @@
-function initializeApp(db){
-    var express = require('express');
-    var path = require('path');
-    var favicon = require('serve-favicon');
-    var logger = require('morgan');
-    var cookieParser = require('cookie-parser');
-    var bodyParser = require('body-parser');
-    var mongoMiddleware = require('./middleware/mongo');
-    var methodOverride = require('method-override');
-    var session = require('express-session');
-    var MongoStore = require('connect-mongo')(session);
-    var setUserOnLocalsMiddleware = require('./middleware/user-local');
-    var promise = require('promise');
-    var LocalStrategy = require('passport-local').Strategy;
-    var expressHandlebars = require('express-handlebars');
-    var User = require('./lib/models/User');
-    var passport = require('passport');
-    var config = require('./config');
-    var secret = "Nibbieamylodgiduke2";
-    var index = require('./routes/index');
-    var users = require('./routes/users');
-    var login = require('./routes/login');
-    var register = require('./routes/register');
-    var flash = require('express-flash');
+function initializeApp(db) {
+    //modules
+    const express = require('express');
+    const path = require('path');
+    const favicon = require('serve-favicon');
+    const logger = require('morgan');
+    const cookieParser = require('cookie-parser');
+    const bodyParser = require('body-parser');
+    const methodOverride = require('method-override');
+    const setUserOnLocalsMiddleware = require('./middleware/user-local');
+    const promise = require('promise');
+    const LocalStrategy = require('passport-local').Strategy;
+    const expressHandlebars = require('express-handlebars');
+    const User = require('./lib/models/User');
+    const passport = require('passport');
+    const config = require('./config');
+    const flash = require('express-flash');
+    const nodemailer = require('nodemailer');
+    const moment = require('moment');
+    const jquery = require('jquery');
+    const Mailgun = require('mailgun-js');
+    const multer = require('multer');
 
-    var app = express();
+    //mongo db - validation - login  //
+    const mongoMiddleware = require('./middleware/mongo');
+    const expressValidator = require('express-validator');
+    const session = require('express-session');
+    const MongoStore = require('connect-mongo')(session);
+
+
+    //secret key//
+    const secret = "Nibbieamylodgiduke2";
+    //routes //
+    const index = require('./routes/index');
+    const users = require('./routes/users');
+    const login = require('./routes/login');
+    const logout = require('./routes/logout');
+    const register = require('./routes/register');
+    const posts = require('./routes/posts');
+    const meta = require('./routes/meta_game');
+    const forum = require('./routes/forum');
+    const articles = require('./routes/articles');
+    const registered = require('./routes/registered');
+    const contests = require('./routes/contests');
+    const video = require('./routes/video');
+
+    // app //
+    const app = express();
     app.db = db;
 
-
+    //Passpost local strategy
     passport.use(new LocalStrategy({
             usernameField: 'username',
             passwordField: 'password'
@@ -70,26 +92,128 @@ function initializeApp(db){
             done(null, user)
         });
     });
-    var handleBars = expressHandlebars.create({
+    const handleBars = expressHandlebars.create({
         layoutsDir: path.join(__dirname, 'views'),
         partialsDir: path.join(__dirname, 'views', 'partials'),
         defaultLayout: 'layout',
-        extname: '.hbs'
-        // helpers: {
-        //   formatDate: function (dateString) {
-        //     return moment(dateString).format("dddd, MMMM D / h A");
-        //   },
-        //   setChecked: function (value, currentValue) {
-        //     if (value == currentValue) {
-        //       return "checked"
-        //     } else {
-        //       return "";
-        //     }
-        //   },
-        //   toISOFormat: function (value) {
-        //     return moment('value').format('YYYY-MM-DDThh:mm');
-        //   }
-        // }
+        extname: '.hbs',
+        helpers: {
+            formatDate: function (dateString) {
+                return moment(dateString).format("dddd, MMMM D / h  A");
+            },
+            setChecked: function (value, currentValue) {
+                if (value == currentValue) {
+                    return "checked"
+                } else {
+                    return "";
+                }
+            },
+            toISOFormat: function (value) {
+                return moment('value').format('YYYY-MM-DDThh:mm');
+            },
+            makeBlurb: function (content) {
+                if (content !== "") {
+                    return content.substring(0, 200)
+                } else {
+                    return "";
+                }
+            }
+        }
+    });
+
+
+// mailgun api
+    var api_key = 'key-5b73e4dcc4fe1ec5a7c92d6141eca779'; //API KEY from mailgun
+    var domain = 'localhost:3000'; //domain name www.example.com
+    var from_who = 'ronaldpedid@live.com'; //email from who@whom.com
+    app.use(express.static(__dirname + '/js'));
+
+    //We pass the api_key and domain to the wrapper, or it won't be able to identify + send emails
+    var mailgun = new Mailgun({apiKey: api_key, domain: domain});
+
+// Send a message to the specified email address when you navigate to /submit/someaddr@email.com
+// The index redirects here
+    app.get('/submit/:mail', function(req,res) {
+
+        //We pass the api_key and domain to the wrapper, or it won't be able to identify + send emails
+        var mailgun = new Mailgun({apiKey: api_key, domain: domain});
+
+        var data = {
+            //Specify email data
+            from: from_who,
+            //The email to contact
+            to: req.params.mail,
+            //Subject and text data
+            subject: 'Hello from Mailgun',
+            html: 'Hello, This is not a plain-text email, I wanted to test some spicy Mailgun sauce in NodeJS! <a href="http://0.0.0.0:3000/validate?' + req.params.mail + '">Click here to add your email address to a mailing list</a>'
+        };
+
+        //Invokes the method to send emails given the above data with the helper library
+        mailgun.messages().send(data, function (err, body) {
+            //If there is an error, render the error page
+            if (err) {
+                res.render('error', { error : err});
+                console.log("got an error: ", err);
+            }
+            //Else we can greet    and leave
+            else {
+                //Here "submitted.hbs" is the view file for this landing page
+                //We pass the variable "email" from the url parameter in an object rendered by hbs
+                res.render('submitted', { email : req.params.mail });
+                console.log(body);
+            }
+        });
+
+    });
+
+    app.get('/validate/:mail', function(req,res) {
+        var mailgun = new Mailgun({apiKey: api_key, domain: domain});
+
+        var members = [
+            {
+                address: req.params.mail
+            }
+        ];
+//For the sake of this tutorial you need to create a mailing list on Mailgun.com/cp/lists and put its address below
+        mailgun.lists('practicelistron@sandboxad33cc2cf1e94782ba036f99cb7ce7d0.mailgun.org').members().add({ members: members, subscribed: true }, function (err, body) {
+            console.log(body);
+            if (err) {
+                res.send("Error - check console");
+            }
+            else {
+                res.send("Added to mailing list");
+            }
+        });
+
+    });
+
+    app.get('/invoice/:mail', function(req,res){
+        //Which file to send? I made an empty invoice.txt file in the root directory
+        //We required the path module here..to find the full path to attach the file!
+        var path = require("path");
+        var fp = path.join(__dirname, 'invoice.txt');
+        //Settings
+        var mailgun = new Mailgun({apiKey: api_key, domain: domain});
+
+        var data = {
+            from: from_who,
+            to: req.params.mail,
+            subject: 'An invoice from your friendly hackers',
+            text: 'A fake invoice should be attached, it is just an empty text file after all',
+            attachment: fp
+        };
+
+
+        //Sending the email with attachment
+        mailgun.messages().send(data, function (error, body) {
+            if (error) {
+                res.render('error', {error: error});
+            }
+            else {
+                res.send("Attachment is on its way");
+                console.log("attachment sent", fp);
+            }
+        });
     });
 
 // view engine setup
@@ -104,6 +228,7 @@ function initializeApp(db){
     app.use(logger('dev'));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}));
+    app.use(expressValidator());
     app.use(cookieParser());
     app.use(express.static(path.join(__dirname, 'public')));
     app.use(mongoMiddleware(config.mongo));
@@ -112,13 +237,17 @@ function initializeApp(db){
         secret: secret,
         maxAge: 60 * 60 * 1000, // ms; lasts for one hour
         resave: false,
-        saveUninitialized: false
+        saveUninitialized: false,
+        cookie:{
+            secure: false,
+            maxAge: 216000000
+        }
     }));
     app.use(flash());
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(setUserOnLocalsMiddleware());
-    var authRouter = express.Router();
+    const authRouter = express.Router();
     authRouter.use(function (req, res, next) {
         if (req.isAuthenticated()) {
             return next()
@@ -130,11 +259,23 @@ function initializeApp(db){
     app.use('/users', users);
     app.use('/login', login);
     app.use('/register', register);
+    app.use('/posts/', posts);
+    app.use('/meta_game/', meta);
+    app.use('/meta_game/decks/create', meta);
+    app.use('/forum/', forum);
+    app.use('/articles/', articles);
+    app.use('/articles/create', articles);
+    app.use('/registered/', registered);
+    app.use('/contests/', contests);
+    app.use('/videos/', video);
+    authRouter.use('/logout', logout);
+    authRouter.use('/posts/', posts);
+    authRouter.use('/posts/create/', posts);
     app.use(authRouter);
 
 // catch 404 and forward to error handler
     app.use(function (req, res, next) {
-        var err = new Error('Not Found');
+        const err = new Error('Not Found');
         err.status = 404;
         next(err);
     });
@@ -149,6 +290,7 @@ function initializeApp(db){
         res.status(err.status || 500);
         res.render('error');
     });
+    return app;
 
 }
 module.exports = initializeApp;

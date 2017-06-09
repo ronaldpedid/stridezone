@@ -1,0 +1,26 @@
+<form id="uploadForm"
+      enctype="multipart/form-data"
+      action="/api/video"
+      method="post">
+    <input type="file" name="userVideo" multiple />
+    <input type="submit" value="Upload Video" name="submit">
+    <input type='text' id='random' name='random'><br>
+    <span id = "status"></span>
+</form>
+<script>
+    $(document).ready(function() {
+        $('#uploadForm').submit(function() {
+            $("#status").empty().text("File is uploading...");
+            $(this).ajaxSubmit({
+                error: function(xhr) {
+                    status('Error: ' + xhr.status);
+                },
+                success: function(response) {
+                    console.log(response);
+                    $("#status").empty().text(response);
+                }
+            });
+            return false;
+        });
+    });
+</script>

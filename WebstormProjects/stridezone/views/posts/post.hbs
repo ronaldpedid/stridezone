@@ -1,0 +1,21 @@
+<section class="flex flex-flow-no-wr bp-format">
+    <span class="span"></span>
+    {{#with post}}
+        <figure class="flex center">
+            <img src="{{imagePath}}"/>
+        </figure>
+        <h1 class="center margin-twenty blg-ttl-sty">{{ postTitle }}</h1>
+        <span class="center ath-sty">by: {{ author }}</span>
+        <div>{{ content }}</div>
+        <figure>
+            <img src="{{imagePath1}}"/>
+        </figure>
+        <span>{{ insertText }}</span>
+        <span>{{ createdAt }}</span>
+        <figure class="flex center">
+            <img src="{{imagePath2}}"/>
+        </figure>
+    {{/with}}
+    <div class="fb-comments" data-href="{{facebookURL}}" data-numposts="5" data-colorscheme="dark" data-width="700" data-mobile="false"></div>
+
+</section>

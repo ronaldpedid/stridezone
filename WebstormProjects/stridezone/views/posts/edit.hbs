@@ -1,0 +1,53 @@
+<div id="bpID" class="flex flex-flow-no-wr center">
+    <form class="flex flex-flow-no-wr center" action="{{action}}" method="POST">
+        <div class="flex center">
+            <label for="postTitle">Edit Title</label>
+            <input id="title" type="text" name="postTitle" placeholder="TITLE" value="{{postTitle}}"/>
+        </div>
+        <div class="flex center">
+            <label for="author">Edit Author</label>
+            <input id="author" type="text" name="author" placeholder="AUTHOR" value="{{author}}"/>
+        </div>
+        <div class="flex center">
+            <label for="image">Add Header Image</label>
+            <input type="text" name="imagePath" value="{{imagePath}}" placeholder="/images/image.png"/>
+        </div>
+        <div class="flex center">
+            <label for="image">Add aside image or add</label>
+            <input type="text" name="imagePath1" value="{{imagePath1}}" placeholder="/images/image.png"/>
+        </div>
+        <div class="flex center">
+            <label for="image">add footer image</label>
+            <input type="text" name="imagePath2" value="{{imagePath2}}" placeholder="/images/image.png"/>
+        </div>
+        <div class="flex center">
+            <label for="facebookURL">Add link to facebook post</label>
+            <input type="text" name="facebookURL" value="{{facebookURL}}" placeholder="/images/image.png"/>
+        </div>
+        <label for="isPremium">Premium</label>
+        <input type="radio" name="isPremium" value="isPremium" {{setChecked "isPremium" isPremium}}" />
+        <label for="isPremium">Featured</label>
+        <input type="radio" name="isFeatured" value="isFeatured"{{setChecked "isFeatured" isFeatured}}" />
+        <div class="flex flex-flow-no-wr center-text">
+            <label for="content">Edit Message</label>
+                <textarea id="content" type="text" class="center" name="content"
+                          placeholder="WRITE BLOG HERE"
+                          value="{{content}}" style="background-color: #FFFFFF" spellcheck="true"
+                          wrap="hard">
+            </textarea>
+            <label class="center margin-twenty" for="startTime">Today's Date</label>
+            <input type="datetime-local" class="flatpickr margin-twenty" name="startTime" id="startTime"
+                   value="{{startTime}}"/>
+            <div class="flex flex-flow-row-wr center">
+                <button class="btn" type="submit">Create</button>
+                <button class="btn" type="reset">Reset</button>
+            </div>
+        </div>
+    </form>
+    <div class="center">
+        <form action="{{ deleteAction }}" method="POST">
+            <button class="btn" type="submit">Delete Post</button>
+        </form>
+    </div>
+</div>
+

@@ -1,22 +1,42 @@
-<h1 class="flex center margin-twenty">Please register to edit the site.</h1>
+<h1>Please register to edit the site.</h1>
 
     <form action="/register" method="post">
-        <div class="flex flex-flow-no-wr">
-            <label class="center">First name</label>
-            <input type="text" name="name" value="" placeholder="First Name here"/>
+        {{#if success}}
+            <section id="valAlertSuccess" class="success pos-abs-center">
+                <button id="closeValSuccess" class="closepu" type="button">[X]</button>
+                <h2>Masterfully Done!</h2>
+            </section>
+        {{else}}
+            {{#if errors}}
+                <section id="valAlertError" class="errors pos-abs-center">
+                    <button id="closeValAlertError" class="closepu" type="button">[X]</button>
+                    <ul>
+                        {{#each errors }}
+                            <li>{{this.msg}}</li>
+                        {{/each}}
+                    </ul>
+                </section>
+            {{/if}}
+        {{/if}}
+        <div>
+            <label>First name</label>
+            <input class="articleInput inputFont"  type="text" name="name" value="" placeholder="First Name"/>
 
             <label class="center">Last name</label>
-            <input type="text" name="lastname" value=""/>
+            <input class="articleInput inputFont" type="text" name="lastname" value="" placeholder="Last Name"/>
         </div>
-        <div class="flex flex-flow-no-wr">
+        <div>
             <label class="center">Username</label>
-            <input type="text" name="username" value=""/>
+            <input class="articleInput inputFont" type="text" name="username" value=""/>
 
             <label class="center">Password</label>
-            <input type="password" name="password" value=""/>
-
-            <input class="btn margin-twenty" type="submit" value="register"/>
+            <input  class="articleInput inputFont" type="password" name="password" value=""/>
         </div>
+        <div class="flex flex-flow-no-wr">
+            <label class="center">email</label>
+            <input class="articleInput inputFont" type="email" name="emailAddress" value=""/>
+        </div>
+        <input class="btn margin-twenty" type="submit" value="register"/>
     </form>
-</div>
+
 

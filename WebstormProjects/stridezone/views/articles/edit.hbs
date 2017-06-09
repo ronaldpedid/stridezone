@@ -1,0 +1,61 @@
+<h1>create this page // new articles</h1>
+
+<section class="inputContainer flex-row center">
+    <form action="{{action}}" method="POST" >
+        {{#if success}}
+            <section id="valAlertSuccess" class="success pos-abs-center">
+                <button id="closeValSuccess" class="closepu" type="button">[X]</button>
+                <h2>Masterfully Done!</h2>
+            </section>
+        {{else}}
+            {{#if errors}}
+                <section id="valAlertError" class="errors pos-abs-center">
+                    <button id="closeValAlertError" class="closepu" type="button">[X]</button>
+                    <ul>
+                        {{#each errors }}
+                            <li>{{this.msg}}</li>
+                        {{/each}}
+                    </ul>
+                </section>
+            {{/if}}
+        {{/if}}
+        <section class="flex-flow-no-wr center">
+            <div class="flex flex-flow-no-wr center">
+                <label for="articleTitle">
+                </label>
+                <input class="articleInput inputFont flex center" id="field" name="articleTitle"
+                       value="{{articleTitle}}"  placeholder="TITLE OF THE ARTICLE" type="text">
+                <label for="articleAuthor"></label>
+                <input class="articleInput inputFont flex center" id="field" name="articleAuthor"
+                       value="{{articleAuthor}}" placeholder="AUTHOR OF THE ARTICLE" type="text">
+                <label for="articleHeaderImg">
+                </label>
+                <input class="articleInput inputFont flex center" id="articleHeaderImg" name="articleHeaderImg"
+                       value="{{articleHeaderImg}}" placeholder="ADD A HEADER IMAGE - /images/pic.jpg" type="text">
+                <label for="articleSideImage"></label>
+                <input class="articleInput inputFont flex center" id="articleSideImage" name="articleSideImage"
+                       value="{{articleSideImage}}" placeholder="ADD A SIDE IMAGE - /images/pic.jpg" type="text">
+                <label for="articleImage1"></label>
+                <input class="articleInput inputFont flex center" id="articleImage1" name="articleImage1"
+                       value="{{articleImage1}}" placeholder="ADD OPTIONAL IMAGE 1 - /images/pic.jpg" type="text">
+                <label for="articleImage2"></label>
+                <input class="articleInput inputFont flex center" id="articleImage2" name="articleImage2"
+                       value="{{articleImage2}}" placeholder="ADD OPTIONAL IMAGE 2- /images/pic.jpg" type="text">
+                <label for="articleImage3"></label>
+                <input class="articleInput inputFont flex center" id="articleImage3" name="articleImage3"
+                       value="{{articleImage3}}" placeholder="ADD OPTIONAL IMAGE 3 - /images/pic.jpg" type="text">
+                <label for="articleContent"></label>
+                  <textarea class="articleTextArea inputFont flex center" id="articleContent" name="articleContent"
+                            value="{{articleContent}}"
+                            type="text" wrap="soft" placeholder="WRITE OR PASTE YOUR ARTICLE HERE"></textarea>
+            </div>
+        </section>
+
+        <button class="subbutton flex center" type="submit" value="">Send</button>
+        <button class="subbutton flex center" type="reset">Reset</button>
+    </form>
+    <form action="{{ deleteAction }}" method="POST">
+        <button class="subbutton delete flex center margin-twenty-top" type="submit">Delete Post</button>
+    </form>
+
+</section>

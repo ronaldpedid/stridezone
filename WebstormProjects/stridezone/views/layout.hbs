@@ -1,10 +1,117 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>{{title}}</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1,minimum-scale=1, user-scalable = no"/>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel='stylesheet' href='/stylesheets/alert.css'/>
+    <link rel="stylesheet" href="https://unpkg.com/flatpickr/dist/flatpickr.min.css">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+    <script src="/javascripts/main.js"></script>
+    <script src="https://unpkg.com/flatpickr"></script>
+    <script src="//cdn.quilljs.com/1.2.5/quill.js"></script>
+    <script src="//cdn.quilljs.com/1.2.5/quill.min.js"></script>
+    <!-- Theme included stylesheets -->
+    <link href="//cdn.quilljs.com/1.2.5/quill.snow.css" rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.2.5/quill.bubble.css" rel="stylesheet">
+</head>
+<body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+{{#if messages.success}}
+    <div class="pubox pos-abs-center success text">{{ messages.success }}</div>
+{{/if}}
+{{#if deleteaction.success}}
+    <div>{{ deleteaction.success }}</div>
+{{/if}}
+{{#if post.success}}
+    <div class="pubox success">{{ post.success }}</div>
+{{/if}}
+{{#if user}}
+    <div class="userinfo">
+        <span class="username">Welcome, {{user.username}}</span>
+        <a class="userlink" href="/logout">Logout</a>
+    </div>
+{{/if}}
+<nav>
+    <div>
+        <img>
+    </div>
+    <div>
+        <a>Metagame</a>
+        <a>Articles</a>
+        <a>Things</a>
+        <a>Stuff</a>
+        <a>Super Things</a>
+        <a href="/login/">Login</a>
+    </div>
+</nav>
+
     {{{body}}}
-  </body>
+
+<!--<footer>-->
+    <!--<div>footer stuff extended edition</div>-->
+<!--</footer>-->
+<!-- ////////////// S C R I P T S /////////////////////////// -->
+
+<script>
+    flatpickr(".flatpickr", {
+        enableTime: true
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#closeValAlertError").click(function () {
+            $("#valAlertError").hide("slow", function () {
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $("#closeValSuccess").click(function () {
+            $("#valAlertSuccess").hide("slow", function () {
+            });
+        });
+    });
+    $(document).ready(function () {
+        $("#registerPUOpen").click(function () {
+            $("#registerPU").show("fast", function () {
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $(".close").click(function () {
+            $("#registerPU").hide("fast", function () {
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $("#contestPUOpen").click(function () {
+            $("#contestPU").show("fast", function () {
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $(".closeCon").click(function () {
+            $("#contestPU").hide("fast", function () {
+            });
+        });
+    });
+</script>
+
+
+</body>
 </html>

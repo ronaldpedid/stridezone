@@ -1,0 +1,15 @@
+{{#with article}}
+    <div>
+        <img class="articleHeader" src="{{articleHeaderImg}}"/>
+    </div>
+<article class="article">
+
+    <h1 class="center-text uppercase">{{articleTitle}}</h1>
+    <h3 class="center-text uppercase">{{articleAuthor}}</h3>
+    <img class="float-left clear articleImage2" src="{{articleSideImage}}" height="350" width="350"  />
+    <span class="formatArticle">{{articleContent}}</span>
+    <img class="articleImageOptional" src="{{articleImage1}}" height="350" width="350"  />
+    <img class="articleImageOptional" src="{{articleImage2}}" height="350" width="350"  />
+    <img class="articleImageOptional" src="{{articleImage3}}" height="350" width="350"  />
+</article>
+{{/with}}

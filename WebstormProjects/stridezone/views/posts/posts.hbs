@@ -1,0 +1,11 @@
+<section>
+    <h1> Hello World</h1>
+    {{#each post as |post|}}
+        {{#with post}}
+            <a href="{{id}}">
+                <h4>{{ postTitle }}</h4>
+                <h5>{{ author }}</h5>
+            </a>
+        {{/with}}
+    {{/each}}
+</section>
